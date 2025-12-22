@@ -1,0 +1,7 @@
+{
+  "name": "极速轨迹 (TurboTrack) - GPX 分析与导航",
+  "description": "一个功能强大的 GPX 路径分析与户外运动记录平台，支持实时导航、路径 AI 分析及 PWA 离线运行。",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
