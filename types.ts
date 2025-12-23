@@ -31,9 +31,15 @@ export interface Activity {
   difficulty: string;
   weather: string;
   roadType: string;
+  distance: string;
+  elevationGain: string;
+  duration: string;
+  groupImage?: string; // 群图片或二维码 Base64
+  introText?: string;  // 新增：活动详细介绍文字
+  introImage?: string; // 新增：活动详情页主图片 Base64
+  
   fullText: string;
   createdAt: string;
-  // Added missing fields used in EventGenerator
   notes: string;
   fees: string;
   equipment: string;

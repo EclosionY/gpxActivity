@@ -108,7 +108,6 @@ const App: React.FC = () => {
       if (activityId) {
         setIsLoading(true);
         try {
-          // 尝试从 API 获取活动详情
           let activity = await safeFetch(`/api/activities/${activityId}`);
           if (!activity) activity = getLocalActivities().find(a => a.id === activityId);
           
@@ -211,8 +210,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col font-sans overflow-hidden">
-      {/* 宣传页模式 */}
+    <div className="relative w-full h-full flex flex-col font-sans overflow-hidden bg-slate-100">
       {promotionData && (
         <ActivityPromotion 
           activity={promotionData.activity} 
@@ -224,29 +222,29 @@ const App: React.FC = () => {
         />
       )}
 
-      <header className="absolute top-0 inset-x-0 z-[1000] p-4 flex justify-between items-center pointer-events-none">
-        <div className="pointer-events-auto flex items-center space-x-2">
-          <div className="bg-white/90 backdrop-blur-md px-5 py-2.5 rounded-2xl shadow-lg border border-slate-200">
-            <span className="font-black text-slate-800 block leading-tight text-lg tracking-tight">轨迹分享x活动发布</span>
-            <div className="flex items-center space-x-1.5">
-               <div className={`w-1.5 h-1.5 rounded-full ${isCloudEnabled ? 'bg-emerald-500' : 'bg-orange-400 animate-pulse'}`}></div>
-               <span className="text-[10px] text-slate-500 font-bold uppercase tracking-tighter">
-                {isCloudEnabled ? '云端已连接' : '本地模式'}
+      <header className="absolute top-0 inset-x-0 z-[1000] p-3 md:p-6 flex justify-between items-center pointer-events-none">
+        <div className="pointer-events-auto flex items-center">
+          <div className="bg-white/95 backdrop-blur-xl px-4 md:px-6 py-2 md:py-3 rounded-[1.5rem] shadow-2xl border border-white/40 flex flex-col">
+            <span className="font-black text-slate-900 leading-tight text-sm md:text-xl tracking-tighter">轨迹分享x活动发布</span>
+            <div className="flex items-center space-x-1.5 mt-0.5">
+               <div className={`w-1.5 h-1.5 rounded-full ${isCloudEnabled ? 'bg-emerald-500 animate-pulse' : 'bg-orange-400 animate-bounce'}`}></div>
+               <span className="text-[8px] md:text-[10px] text-slate-400 font-black uppercase tracking-widest">
+                {isCloudEnabled ? '云端已连接' : '本地存储模式'}
                </span>
             </div>
           </div>
         </div>
 
-        <div className="pointer-events-auto flex space-x-2">
-          <button onClick={() => setShowActivityList(true)} className="bg-slate-900 text-white p-3.5 rounded-full shadow-lg transition-all active:scale-90 border border-slate-800" title="活动档案">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l2 2h2a2 2 0 012 2v10a2 2 0 01-2 2z"></path></svg>
+        <div className="pointer-events-auto flex space-x-2 md:space-x-3">
+          <button onClick={() => setShowActivityList(true)} className="bg-slate-900 text-white p-3 md:p-4 rounded-[1.2rem] shadow-2xl transition-all active:scale-90 border border-slate-800" title="活动档案">
+            <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l2 2h2a2 2 0 012 2v10a2 2 0 01-2 2z"></path></svg>
           </button>
-          <button onClick={() => setShowTrackList(true)} className="bg-white/90 backdrop-blur-md p-3.5 rounded-full shadow-lg border border-slate-200 transition-all active:scale-90" title="轨迹库">
-            <svg className="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          <button onClick={() => setShowTrackList(true)} className="bg-white/95 backdrop-blur-xl p-3 md:p-4 rounded-[1.2rem] shadow-2xl border border-white/40 transition-all active:scale-90" title="轨迹库">
+            <svg className="w-5 h-5 md:w-6 md:h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
           </button>
-          <label className="bg-emerald-500 p-3.5 rounded-full shadow-lg cursor-pointer flex items-center justify-center transition-all active:scale-90 hover:bg-emerald-600">
+          <label className="bg-emerald-600 p-3 md:p-4 rounded-[1.2rem] shadow-2xl cursor-pointer flex items-center justify-center transition-all active:scale-90 hover:bg-emerald-700">
             <input type="file" accept=".gpx" onChange={handleFileUpload} className="hidden" />
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
+            <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
           </label>
         </div>
       </header>
@@ -301,12 +299,15 @@ const App: React.FC = () => {
       )}
 
       {trackSummaries.length === 0 && !isLoading && !selectedTrack && (
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[400] text-center w-full max-w-xs px-4 animate-in fade-in zoom-in duration-500">
-          <div className="bg-white/90 backdrop-blur-md p-8 rounded-3xl shadow-xl border border-slate-200">
-            <h1 className="text-xl font-bold text-slate-800 mb-2">上传 GPX 开启活动</h1>
-            <p className="text-sm text-slate-500 mb-6 leading-relaxed">分析海拔、里程并一键生成活动推文。</p>
-            <label className="block w-full bg-emerald-500 text-white font-bold py-3.5 rounded-xl cursor-pointer text-center transition-all hover:bg-emerald-600 active:scale-95 shadow-lg shadow-emerald-100">
-              立即上传
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[400] text-center w-full max-w-xs px-6 animate-in fade-in zoom-in duration-700">
+          <div className="bg-white/95 backdrop-blur-2xl p-8 md:p-12 rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] border border-white/50">
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-emerald-100 rounded-[2rem] flex items-center justify-center mx-auto mb-6 text-emerald-600">
+               <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 20l-5.447-2.724A2 2 0 013 15.488V5.512a2 2 0 011.553-1.956L9 2l5 2.5L19 2l5 2.5v12l-5-2.5-5 2.5z"></path></svg>
+            </div>
+            <h1 className="text-xl md:text-2xl font-black text-slate-900 mb-3 tracking-tight">开启你的第一条轨迹</h1>
+            <p className="text-xs md:text-sm text-slate-400 mb-10 leading-relaxed font-medium">智能分析轨迹参数，一键生成精美活动档案与推文。</p>
+            <label className="block w-full bg-emerald-600 text-white font-black py-4 md:py-5 rounded-3xl cursor-pointer text-center transition-all hover:bg-emerald-700 active:scale-95 shadow-2xl shadow-emerald-200 uppercase tracking-widest text-xs">
+              点击上传 GPX 文件
               <input type="file" accept=".gpx" onChange={handleFileUpload} className="hidden" />
             </label>
           </div>
@@ -314,10 +315,10 @@ const App: React.FC = () => {
       )}
       
       {isLoading && (
-        <div className="absolute inset-0 z-[5000] bg-white/20 backdrop-blur-[2px] flex items-center justify-center">
-          <div className="bg-white p-5 rounded-2xl shadow-2xl flex items-center space-x-3 animate-in fade-in zoom-in duration-200">
-            <div className="w-5 h-5 border-3 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
-            <span className="text-sm font-bold text-slate-700">正在处理轨迹数据...</span>
+        <div className="absolute inset-0 z-[9000] bg-slate-900/10 backdrop-blur-[4px] flex items-center justify-center p-6">
+          <div className="bg-white px-8 py-5 rounded-[2rem] shadow-2xl flex items-center space-x-4 animate-in fade-in zoom-in duration-300">
+            <div className="w-6 h-6 border-3 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
+            <span className="text-sm font-black text-slate-800 tracking-tight">正在处理数据...</span>
           </div>
         </div>
       )}
